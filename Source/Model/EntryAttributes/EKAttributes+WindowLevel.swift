@@ -11,7 +11,7 @@ import UIKit
 public extension EKAttributes {
     
     /** Describes the window level in which the entry would be displayed */
-    enum WindowLevel {
+    enum WindowLevel: Hashable {
         
         /** Above the alerts */
         case alerts

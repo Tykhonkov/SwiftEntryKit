@@ -54,7 +54,7 @@ public final class SwiftEntryKit {
      This can be used
      */
     public class var window: UIWindow? {
-        return EKWindowProvider.shared.entryWindow
+        return EKWindowProvider.shared.windows.values.first
     }
     
     /**
@@ -126,18 +126,7 @@ public final class SwiftEntryKit {
         }
     }
     
-    /**
-     ALPHA FEATURE: Transform the previous entry to the current one using the previous attributes struct.
-     - A thread-safe method - Can be invoked from any thread.
-     - A class method - Should be called on the class.
-     - This feature hasn't been fully tested. Use with caution.
-     - parameter view: Custom view that is to be displayed instead of the currently displayed entry
-     */
-    public class func transform(to view: UIView) {
-        DispatchQueue.main.async {
-            EKWindowProvider.shared.transform(to: view)
-        }
-    }
+
     
     /**
      Dismisses the currently presented entry and removes the presented window instance after the exit animation is concluded.

@@ -9,8 +9,12 @@
 import UIKit
 
 protocol EntryPresenterDelegate: class {
-    var isResponsiveToTouches: Bool { set get }
-    func displayPendingEntryIfNeeded()
+
+    func displayPendingEntryIfNeeded(for windowLeveL: EKAttributes.WindowLevel)
+
+    func isResponsiveToTouches(for windowLevel: EKAttributes.WindowLevel) -> Bool
+    func set(isResponsiveToTouches: Bool, for windowLevel: EKAttributes.WindowLevel)
+
 }
 
 class EKRootViewController: UIViewController {
@@ -19,7 +23,7 @@ class EKRootViewController: UIViewController {
     
     private unowned let delegate: EntryPresenterDelegate
     
-    private var lastAttributes: EKAttributes!
+    var lastAttributes: EKAttributes!
     
     private let backgroundView = EKBackgroundView()
 
@@ -39,14 +43,14 @@ class EKRootViewController: UIViewController {
         return lastEntry != nil
     }
     
-    private var lastEntry: EKContentView? {
+    var lastEntry: EKContentView? {
         return view.subviews.last as? EKContentView
     }
         
     private var isResponsive = false {
         didSet {
             wrapperView.isAbleToReceiveTouches = isResponsive
-            delegate.isResponsiveToTouches = isResponsive
+            delegate.set(isResponsiveToTouches: isResponsive, for: lastAttributes.windowLevel)
         }
     }
 
@@ -223,7 +227,7 @@ extension EKRootViewController: EntryContentViewDelegate {
             return
         }
         
-        delegate.displayPendingEntryIfNeeded()
+        delegate.displayPendingEntryIfNeeded(for: entry.attributes.windowLevel)
     }
     
     func changeToInactive(withAttributes attributes: EKAttributes, pushOut: Bool) {

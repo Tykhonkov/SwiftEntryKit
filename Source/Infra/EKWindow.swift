@@ -35,8 +35,8 @@ class EKWindow: UIWindow {
         if isAbleToReceiveTouches {
             return super.hitTest(point, with: event)
         }
-        
-        guard let rootVC = EKWindowProvider.shared.rootVC else {
+        // TODO: Create logic to  store root vc in EKWindow
+        guard let rootVC = EKWindowProvider.shared.rootViewContrller(for: .normal) else {
             return nil
         }
         
